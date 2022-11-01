@@ -97,3 +97,112 @@ import {
       console.log(error);
     }
   });
+
+
+  import {
+    onGetProduto,
+    saveProduto,
+    deleteProduto,
+    getProdutos,
+    updateProduto,
+    getProduto,
+  } from "./firebase.js";
+  
+  const produtoForm = document.getElementById("produto-form");
+  const produtoContainer = document.getElementById("produto-container");
+  
+  let editStatuses = false;
+  let ids = "";
+  
+  window.addEventListener("DOMContentLoaded", async (e) => {
+    // const querySnapshot = await getTasks();
+    // querySnapshot.forEach((doc) => {
+    //   console.log(doc.data());
+    // });
+  
+    onGetProduto((querySnapshot) => {
+      produtoContainer.innerHTML = "";
+  
+      querySnapshot.forEach((doc) => {
+        const produto = doc.data();
+  
+        produtoContainer.innerHTML += `
+        <div class="card card-body mt-2 border-primary">
+      <h3 class="h5">${produto.nome}</h3>
+      <p>${produto.descricao}</p>
+      <h3 class="h5">${produto.valor}</h3>
+      <h3 class="h5">${produto.dataV}</h3>
+      <div>
+        <button class="btn btn-primary btn-delete" data-id="${doc.id}">
+          🗑 Delete
+        </button>
+        <button class="btn btn-secondary btn-edit" data-id="${doc.id}">
+          🖉 Edit
+        </button>
+      </div>
+    </div>`;
+      });
+  
+      const btnsDelete = produtoContainer.querySelectorAll(".btn-delete");
+      btnsDelete.forEach((btn) =>
+        btn.addEventListener("click", async ({ target: { dataset } }) => {
+          try {
+            await deleteProduto(dataset.id);
+          } catch (error) {
+            console.log(error);
+          }
+        })
+      );
+  
+      const btnsEdit = produtoContainer.querySelectorAll(".btn-edit");
+      btnsEdit.forEach((btn) => {
+        btn.addEventListener("click", async (e) => {
+          try {
+            const doc = await getProduto(e.target.dataset.id);
+            const produto = doc.data();
+            produtoForm["produto-nome"].value = produto.nome;
+            produtoForm["produto-descricao"].value = produto.descricao;
+            produtoForm["produto-valor"].value = produto.valor;
+            produtoForm["produto-dataV"].value = produto.dataV;
+  
+            editStatus = true;
+            id = doc.id;
+            produtoForm["btn-produto-form"].innerText = "Update";
+          } catch (error) {
+            console.log(error);
+          }
+        });
+      });
+    });
+  });
+  
+  produtoForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+  
+    const nome = produtoForm["produto-nome"];
+    const descricao = produtoForm["produto-descricao"];
+    const valor = produtoForm["produto-valor"];
+    const dataV = produtoForm["produto-dataV"];
+  
+    try {
+      if (!editStatus) {
+        await saveProduto(nome.value, descricao.value, valor.value, dataV.value);
+      } else {
+        await updateProduto(id, {
+          nome: nome.value,
+          descricao: descricao.value,
+          valor: valor.value,
+          dataV: dataV.value,
+        });
+  
+        editStatuses = false;
+        ids = "";
+        produtoForm["btn-produto-form"].innerText = "Save";
+      }
+  
+      produtoForm.reset();
+      nome.focus();
+    } catch (error) {
+      console.log(error);
+    }
+  });

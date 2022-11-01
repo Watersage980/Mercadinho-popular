@@ -54,14 +54,23 @@ export const updateTask = (id, newFields) =>
   updateDoc(doc(db, "tasks", id), newFields);
 
 export const getTasks = () => getDocs(collection(db, "tasks"));
+/** 
+* @param {string} nome
+* @param {string} descricao
+* @param {string} valor
+* @param {string} dataV
+*/
 
-
-
-export const saveProduto = (title, description) =>
-  addDoc(collection(db, "produto"), { title, description });
+export const saveProduto = (nome, descricao, valor, dataV) =>
+  addDoc(collection(db, "produto"), { nome, descricao, valor, dataV });
 
 export const onGetProduto = (callback) =>
   onSnapshot(collection(db, "produto"), callback);
+
+  /**
+ *
+ * @param {string} ids Task ID
+ */
 
 export const deleteProduto = (id) => deleteDoc(doc(db, "produto", id));
 
