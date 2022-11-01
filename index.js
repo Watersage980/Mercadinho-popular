@@ -115,7 +115,7 @@ import {
   let ids = "";
   
   window.addEventListener("DOMContentLoaded", async (e) => {
-    // const querySnapshot = await getTasks();
+    // const querySnapshot = await getProdutos();
     // querySnapshot.forEach((doc) => {
     //   console.log(doc.data());
     // });
