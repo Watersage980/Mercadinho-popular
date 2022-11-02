@@ -129,7 +129,7 @@ import {
         produtoContainer.innerHTML += `
         <div class="card card-body mt-2 border-primary">
       <h3 class="h5">${produto.nome}</h3>
-      <h3 class="h5">${produto.quantidade} unidades padrão</h3>
+      <h3 class="h5">${produto.quantidade}</h3>
       <h3 class="h5">R$ ${produto.valor}</h3>
       <h3 class="h5">${produto.dataV}</h3>
       <div>
