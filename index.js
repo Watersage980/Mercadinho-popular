@@ -129,8 +129,8 @@ import {
         produtoContainer.innerHTML += `
         <div class="card card-body mt-2 border-primary">
       <h3 class="h5">${produto.nome}</h3>
-      <p>${produto.descricao}</p>
-      <h3 class="h5">${produto.valor}</h3>
+      <h3 class="h5">${produto.quantidade} unidades padrão</h3>
+      <h3 class="h5">R$ ${produto.valor}</h3>
       <h3 class="h5">${produto.dataV}</h3>
       <div>
         <button class="btn btn-primary btn-delete" data-id="${doc.id}">
@@ -161,12 +161,12 @@ import {
             const doc = await getProduto(e.target.dataset.id);
             const produto = doc.data();
             produtoForm["produto-nome"].value = produto.nome;
-            produtoForm["produto-descricao"].value = produto.descricao;
+            produtoForm["produto-quantidade"].value = produto.quantidade;
             produtoForm["produto-valor"].value = produto.valor;
             produtoForm["produto-dataV"].value = produto.dataV;
   
-            editStatus = true;
-            id = doc.id;
+            editStatuses = true;
+            ids = doc.id;
             produtoForm["btn-produto-form"].innerText = "Update";
           } catch (error) {
             console.log(error);
@@ -180,17 +180,17 @@ import {
     e.preventDefault();
   
     const nome = produtoForm["produto-nome"];
-    const descricao = produtoForm["produto-descricao"];
+    const quantidade = produtoForm["produto-quantidade"];
     const valor = produtoForm["produto-valor"];
     const dataV = produtoForm["produto-dataV"];
   
     try {
-      if (!editStatus) {
-        await saveProduto(nome.value, descricao.value, valor.value, dataV.value);
+      if (!editStatuses) {
+        await saveProduto(nome.value, quantidade.value, valor.value, dataV.value);
       } else {
-        await updateProduto(id, {
+        await updateProduto(ids, {
           nome: nome.value,
-          descricao: descricao.value,
+          quantidade: quantidade.value,
           valor: valor.value,
           dataV: dataV.value,
         });

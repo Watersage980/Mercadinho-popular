@@ -61,8 +61,8 @@ export const getTasks = () => getDocs(collection(db, "tasks"));
 * @param {string} dataV
 */
 
-export const saveProduto = (nome, descricao, valor, dataV) =>
-  addDoc(collection(db, "produto"), { nome, descricao, valor, dataV });
+export const saveProduto = (nome, quantidade, valor, dataV) =>
+  addDoc(collection(db, "produto"), { nome, quantidade, valor, dataV });
 
 export const onGetProduto = (callback) =>
   onSnapshot(collection(db, "produto"), callback);
