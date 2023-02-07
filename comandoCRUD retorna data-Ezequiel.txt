@@ -1,0 +1,4 @@
+duplo clique no datetimepicker
+
+dtpData.Format = DateTimePickerFormat.Custom;
+dtpData.CustomFormat = "ddddddd, dd MMM yyyy";
